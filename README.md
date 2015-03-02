@@ -1,25 +1,27 @@
 # matf
 
-Supported Grammar:
+## Supported Grammar
 
+```
 E :=
 | E OP E
-| \frac{E}{E}
+| \\frac\{E\}\{E\}
 | E POW
-| \sum SUB{0,1} POW E
-| \prod SUB{0,1} POW E
+| \\sum SUB? POW E
+| \\prod SUB? POW E
 | LITERAL
 
 OP :=
 | +
 | -
-| \cdot
+| \\cdot
 | /
 
-POW := ^{E}
-SUB := _{LITERAL}
+POW := ^\{E\}
+SUB := _\{LITERAL\}
 
 LITERAL :=
 | LITERAL SUB
 | [a-zA-Z]+
-| [0-9][.[0-9]+]{0,1}
+| [0-9](.[0-9]+)?
+```
