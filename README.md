@@ -3,25 +3,36 @@
 ## Supported Grammar
 
 ```
-E :=
-| E OP E
-| \\frac\{E\}\{E\}
-| E POW
-| \\sum SUB? POW E
-| \\prod SUB? POW E
-| LITERAL
+<expr> ::=
+| <literal> <expr'>
+| \frac{<expr>}{<expr>}
+| <expr'> <pow>
+| \sum <sub> <pow> <expr>
+| \sum <pow> <expr>
+| \sum <expr>
+| \prod <sub> <pow> <expr>
+| \prod <pow> <expr>
+| \prod <expr>
+| <literal>
 
-OP :=
+<expr'> ::=
+| <op> <expr'>
+| <literal>
+
+<op> ::=
 | +
 | -
-| \\cdot
+| \cdot
 | /
 
-POW := ^\{E\}
-SUB := _\{LITERAL\}
+<pow> ::= ^{<expr>}
+<sub> ::= _{<literal>}
 
-LITERAL :=
-| LITERAL SUB
+<literal> ::=
+| <literal'> <sub>
+| <literal'>
+
+<literal'> ::=
 | [a-zA-Z]+
 | [0-9](.[0-9]+)?
 ```
