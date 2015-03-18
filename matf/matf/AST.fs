@@ -2,8 +2,7 @@
 
 //Type abbriviations
 type label = string
-
-type identifier = string
+type name = string
 
 //Latex values
 type value = double
@@ -18,7 +17,8 @@ type arithmetic =
 //Latex expression
 type expr = 
     | Literal of value
-    | Var of identifier
+    | Var of name
+    | Let of name * expr * expr
     | Arithmetic of expr * arithmetic * expr
     | Func of (value -> value)
     | Sum of expr * expr * expr
