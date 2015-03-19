@@ -17,7 +17,7 @@ let rec eval state (expr : expr) =
         | Some x -> snd x
         | None -> failwith "Unbound variable."
     | Let (name, e1, e2) -> eval ((name, eval state e1) :: state) e2
-    | Where (e1, name, e2) -> eval ((name, eval state e2) :: state) e1
+    | Where (e1, name, e2) -> eval state (Let (name, e2, e1))
     | Arithmetic(left, operator, right) ->
         arithmetic (eval state left) operator (eval state right)
     | Sum (from, upto, Func func) ->
