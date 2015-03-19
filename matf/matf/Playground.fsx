@@ -8,8 +8,10 @@ open Interpreter
 open System.Collections.Generic
 // Define your library scripting code here
 
-let d = new Dictionary<identifier,value>()
-eval d (Arithmetic(Literal 12.0, Add,Literal 2.0))
+eval [] (Arithmetic(Literal 12.0, Add, Literal 2.0))
+
 let square (a:double) =
-    a*a
-eval d (Sum(Literal 1.0,Literal 2.0,Func square))
+    a * a
+
+eval [] (Let ("x", (Literal 1.0), Sum (Var "x", Literal 2.0, Func square)))
+eval [] (Let ("x", Literal 2.0, (Sum (Var "x", (Arithmetic (Var "x", Multiply, Var "x")), Var "x"))))
