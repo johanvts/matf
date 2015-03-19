@@ -16,7 +16,8 @@ let rec eval state (expr : expr) =
         match state |> List.tryFind (fun (k, _) -> k = name) with
         | Some x -> snd x
         | None -> failwith "Unbound variable."
-    | Let (name, e1, e2) -> eval ((name, (eval state e1)) :: state) e2
+    | Let (name, e1, e2) -> eval ((name, eval state e1) :: state) e2
+    | Where (e1, name, e2) -> eval ((name, eval state e2) :: state) e1
     | Arithmetic(left, operator, right) ->
         arithmetic (eval state left) operator (eval state right)
     | Sum (from, upto, Func func) ->
