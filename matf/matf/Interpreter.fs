@@ -30,5 +30,7 @@ let rec eval state (expr : expr) =
         [ (eval state from)..(eval state upto) ] |> List.fold (fun s _ -> s * (eval state a)) 1.0
     | Frac (top, btn) ->
         (eval state top) / (eval state btn)
+    | Pow (e1, e2) -> (eval state e1) ** (eval state e2)
+    | Sqrt e -> sqrt (eval state e)
     | Func (_) ->
         failwith "A function with no input is not a valid argument."

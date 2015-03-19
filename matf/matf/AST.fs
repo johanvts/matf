@@ -25,3 +25,5 @@ type expr =
     | Sum of expr * expr * expr
     | Prod of expr * expr * expr
     | Frac of expr * expr
+    | Pow of expr * expr
+    | Sqrt of expr
