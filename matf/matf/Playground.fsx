@@ -8,10 +8,10 @@ open Matf.Interpreter
 open System.Collections.Generic
 // Define your library scripting code here
 
-eval [] (Arithmetic(Literal 12.0, Add, Literal 2.0))
+eval Map.empty (Arithmetic(Literal 12.0, Add, Literal 2.0))
 
 let square (a:double) =
     a * a
 
-eval [] (Let ("x", (Literal 1.0), Sum (Var "x", Literal 2.0, Func square)))
-eval [] (Let ("x", Literal 2.0, (Sum (Var "x", (Arithmetic (Var "x", Multiply, Var "x")), Var "x"))))
+eval Map.empty (Let ("x", (Literal 1.0), Sum (Var "x", Literal 2.0, Func square)))
+eval Map.empty (Let ("x", Literal 2.0, (Sum (Var "x", (Arithmetic (Var "x", Multiply, Var "x")), Var "x"))))

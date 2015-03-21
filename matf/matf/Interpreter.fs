@@ -13,10 +13,10 @@ let rec eval state (expr : expr) =
     match expr with
     | Literal x -> x
     | Var name ->
-        match state |> List.tryFind (fun (k, _) -> k = name) with
-        | Some x -> snd x
+        match state |> Map.tryFind name with
+        | Some x -> x
         | None -> failwith "Unbound variable."
-    | Let (name, e1, e2) -> eval ((name, eval state e1) :: state) e2
+    | Let (name, e1, e2) -> eval (state |> Map.add name (eval state e1)) e2
     | Where (e1, name, e2) -> eval state (Let (name, e2, e1))
     | Arithmetic(left, operator, right) ->
         arithmetic (eval state left) operator (eval state right)
