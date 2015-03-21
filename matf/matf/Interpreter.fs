@@ -1,6 +1,6 @@
-﻿module Interpreter
+﻿module Matf.Interpreter
 
-open AST
+open Matf.AST
 
 let arithmetic left operator right =
     match operator with

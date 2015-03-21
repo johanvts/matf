@@ -1,4 +1,4 @@
-﻿module AST
+﻿module Matf.AST
 
 //Type abbriviations
 type label = string
