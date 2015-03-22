@@ -3,8 +3,10 @@
 
 #load "AST.fs"
 #load "Interpreter.fs"
+#load "Parser.fs"
 open Matf.AST
 open Matf.Interpreter
+open Matf
 open System.Collections.Generic
 // Define your library scripting code here
 
