@@ -1,3 +1,5 @@
 A short article on designing an F# DSL:
 http://www.codeproject.com/Articles/39031/Making-DSLs-in-F
 
+A DSL in F# cheatsheet by Anh-Dung Phan who also have F# translations of code from DSL's in action on his github:
+https://github.com/dungpa/dsls-in-action-fsharp/blob/master/DSLCheatsheet.md
