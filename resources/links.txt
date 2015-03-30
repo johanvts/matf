@@ -1,0 +1,3 @@
+A short article on designing an F# DSL:
+http://www.codeproject.com/Articles/39031/Making-DSLs-in-F
+
