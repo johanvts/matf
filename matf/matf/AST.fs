@@ -27,3 +27,4 @@ type expr =
     | Frac of expr * expr
     | Pow of expr * expr
     | Sqrt of expr
+    | Neg of expr

@@ -11,7 +11,11 @@ let arithmetic left operator right =
 
 let rec eval state (expr : expr) =
     match expr with
-    | Literal x -> x
+    | Literal x -> 
+        match x with
+        | x when System.Double.IsNaN(x) -> failwith "To small to compute. Float NaN"
+        | x when System.Double.IsInfinity(x) -> failwith "To large to compute. Float inf."
+        | x -> x
     | Var name ->
         match state |> Map.tryFind name with
         | Some x -> x
@@ -34,3 +38,4 @@ let rec eval state (expr : expr) =
     | Sqrt e -> sqrt (eval state e)
     | Func (_) ->
         failwith "A function with no input is not a valid argument."
+    | Neg x -> -(eval state x)

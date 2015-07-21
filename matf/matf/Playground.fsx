@@ -3,6 +3,8 @@
 
 #load "AST.fs"
 #load "Interpreter.fs"
+#r @"..\..\FParsec.1.0.1\lib\net40-client\FParsecCS.dll"
+#r @"..\..\FParsec.1.0.1\lib\net40-client\FParsec.dll"
 #load "Parser.fs"
 open Matf.AST
 open Matf.Interpreter

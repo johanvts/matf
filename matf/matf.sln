@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.22823.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "matf", "matf\matf.fsproj", "{40971656-F13D-4826-9175-58A9BBDAE0DA}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "matf.Test", "matf.Test\matf.Test.fsproj", "{CF63BE6B-C112-45F2-8766-EAA430C19098}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{40971656-F13D-4826-9175-58A9BBDAE0DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40971656-F13D-4826-9175-58A9BBDAE0DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40971656-F13D-4826-9175-58A9BBDAE0DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF63BE6B-C112-45F2-8766-EAA430C19098}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF63BE6B-C112-45F2-8766-EAA430C19098}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF63BE6B-C112-45F2-8766-EAA430C19098}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF63BE6B-C112-45F2-8766-EAA430C19098}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
