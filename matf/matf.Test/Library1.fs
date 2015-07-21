@@ -24,16 +24,16 @@ type LimRange =
 let``Addition Properties - Commutative floats``(x,y) =
         let str1 = sprintf  "%f + %f" x y
         let str2 = sprintf  "%f + %f" y x
-        let result1 = eval Map.empty (parse pArithmetic str1)
-        let result2  = eval Map.empty (parse pArithmetic str2)
+        let result1 = eval Map.empty (parse pTexEq str1)
+        let result2  = eval Map.empty (parse pTexEq str2)
         result1 |> should (equalWithin 0.0000001) result2
 
 [<Property( Arbitrary=[| typeof<LimRange>  |])>]
 let``Addition Properties - Associative floats``(x,y,z) =
         let str1 = sprintf  "%f + ( %f + %f )" x y z
         let str2 = sprintf  "( %f + %f ) + %f" x y z
-        let result1 = eval Map.empty (parse pArithmetic str1)
-        let result2  = eval Map.empty (parse pArithmetic str2)
+        let result1 = eval Map.empty (parse pTexEq str1)
+        let result2  = eval Map.empty (parse pTexEq str2)
         result1 |> should (equalWithin 0.0000001) result2
 
 let positive x = if x > 0.0000001 then true else false
@@ -42,7 +42,7 @@ let positive x = if x > 0.0000001 then true else false
 let``Addition Properties - Adding a positive floats grows the sum``(x, y) =
         positive y ==>
             let str1 = sprintf  "%f + %f" x y
-            let result = eval Map.empty (parse pArithmetic str1)
+            let result = eval Map.empty (parse pTexEq str1)
             result > x
 
 type ``Given addition``()=
@@ -53,6 +53,15 @@ type ``Given addition``()=
     [<TestCase(3,35.2,38.2)>]
     member t.``Addition gives correct results``(x,y,expected) =
         let testString = sprintf  "%f + %f" x y
-        let actual = eval Map.empty (parse pArithmetic testString)
+        let actual = eval Map.empty (parse pTexEq testString)
         actual |> should (equalWithin 0.0000001) expected
 
+type ``Given Let``() =
+    
+    [<TestCase(10,4,14)>]
+    member t.``Defining a variable and using it in addition`` (x,y,expected) =
+        let testString = sprintf "x = %f, x + %f" x y
+        let actual = eval Map.empty (parse pTexEq testString)
+        actual |> should (equalWithin 0.0000001) expected
+       
+   

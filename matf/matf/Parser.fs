@@ -20,6 +20,11 @@ let parse parser s =
 
 let drops s = pstring s >>. spaces
 let literal = pfloat .>> spaces |>> fun n -> Literal n
+let str_ws s = pstring s .>> spaces
+
+//Define the expression parser as forwarded
+
+let pTexEq, pTexEqImpl = createParserForwardedToRef ()
 
 //set up operators with precedence
 let opp = new OperatorPrecedenceParser<expr,unit,unit>()
@@ -33,4 +38,13 @@ opp.AddOperator(InfixOperator("^", spaces,3,Associativity.Right, fun x y -> Pow 
 opp.AddOperator(PrefixOperator("-", spaces,4,true, fun x -> Neg x))
 
 
+//No names longer than 10 chars
+
+let pName = FParsec.CharParsers.many1Chars letter 
+let pVar = pName |>> fun name -> Var name
+
+let pLet = pipe3 (pName.>> spaces .>> drops "=") (pTexEq .>> drops ",") (pTexEq)  (fun name expr1 expr2 -> Let (name,expr1,expr2))
+
+//finally collect everything into an LatexEquation parser
+pTexEqImpl := pArithmetic <|> attempt(pLet) <|> pVar  
 
