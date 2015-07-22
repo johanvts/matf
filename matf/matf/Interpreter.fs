@@ -21,7 +21,6 @@ let rec eval state (expr : expr) =
         | Some x -> x
         | None -> failwith "Unbound variable."
     | Let (name, e1, e2) -> eval (state |> Map.add name (eval state e1)) e2
-    | Where (e1, name, e2) -> eval state (Let (name, e2, e1))
     | Arithmetic(left, operator, right) ->
         arithmetic (eval state left) operator (eval state right)
     | Sum (name, from, upto, exp) ->
@@ -30,8 +29,7 @@ let rec eval state (expr : expr) =
         [ (eval state from)..(eval state upto) ] |> List.fold (fun s value -> s * (eval (state |> Map.add name value) exp)) 1.0
     | Frac (top, btn) ->
         (eval state top) / (eval state btn)
+    | Ln expr -> log (eval state expr)
     | Pow (e1, e2) -> (eval state e1) ** (eval state e2)
     | Sqrt e -> sqrt (eval state e)
-    | Func (_) ->
-        failwith "A function with no input is not a valid argument."
     | Neg x -> -(eval state x)

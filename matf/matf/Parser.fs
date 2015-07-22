@@ -32,10 +32,11 @@ let pTexEq, pTexEqImpl = createParserForwardedToRef ()
 
 let pName = FParsec.CharParsers.many1Chars letter 
 let pUnbound = pName .>> spaces |>> fun name -> Var name
-let pBind = pipe3 (pName.>> spaces .>> drops "=") (pTexEq .>> drops ",") (pTexEq)  (fun name expr1 expr2 -> Let (name,expr1,expr2))
-let pVar = (attempt pBind) <|> pUnbound
+let pLet = pipe3 (pName.>> spaces .>> drops "=") (pTexEq .>> drops ",") (pTexEq)  (fun name value expr -> Let (name,value,expr))
+let pWhere = pipe3 (pTexEq .>> drops ",") (pName.>> spaces .>> drops "=") (pTexEq)  (fun expr name value -> Let (name,value,expr))
+let pVar = (attempt pLet) <|> (attempt pWhere) <|> pUnbound
 
-//Parsing Sums
+//Sum and Prod functions
 
 let betweenStr s1 s2 p = pstring s1 >>. p .>> pstring s2
 let pLowerArgNa = ((pstring "_" >>? betweenStr "{" "}" pTexEq) <|> (pstring "_" >>. (literal <|> pVar))) .>> spaces |>> fun x -> ("na",x)
@@ -50,12 +51,21 @@ let pFun f =
 let pSum = pFun @"\sum"
 let pProd = pFun @"\prod"
 
-let pFunction = pSum <|> pProd
+
+//Simpler functions
+
+let pFrac = drops @"\frac{" >>.pTexEq .>> drops "}{" .>>.pTexEq .>>drops "}" 
+            |>> fun (top,btn) -> Frac (top,btn)
+let pLn = drops @"\ln{" >>.pTexEq .>>drops "}" |>> fun x -> Ln x 
+let pSqrt = drops @"\sqrt{" >>. pTexEq .>>drops "}" |>> fun x -> Sqrt x
+
+
+let pFunctions = pFrac <|> pLn  <|> pSqrt <|> pSum <|> pProd
 
 //Set up operators with precedence
 let opp = new OperatorPrecedenceParser<expr,unit,unit>()
 let pArithmetic = opp.ExpressionParser
-opp.TermParser <- literal <|> pVar <|> pFunction <|> between (drops "(") (drops ")") pArithmetic
+opp.TermParser <- literal <|> pVar <|> pFunctions <|> between (drops "(") (drops ")") pArithmetic
 opp.AddOperator(InfixOperator("+", spaces,1,Associativity.Left, fun x y -> Arithmetic (x,Add,y)))
 opp.AddOperator(InfixOperator("-", spaces,1,Associativity.Left, fun x y -> Arithmetic (x,Subtract,y)))
 opp.AddOperator(InfixOperator("*", spaces,2,Associativity.Left, fun x y -> Arithmetic (x,Multiply,y)))
