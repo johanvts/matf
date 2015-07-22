@@ -1,11 +1,13 @@
 ﻿module Matf.Parser
 
+open Matf.AST
+
+
 #if INTERACTIVE
 #r @"..\..\FParsec.1.0.1\lib\net40-client\FParsecCS.dll"
 #r @"..\..\FParsec.1.0.1\lib\net40-client\FParsec.dll"
 #endif
 
-open Matf.AST
 open FParsec
 
 let test p str =
@@ -39,7 +41,7 @@ let betweenStr s1 s2 p = pstring s1 >>. p .>> pstring s2
 let pLowerArgNa = ((pstring "_" >>? betweenStr "{" "}" pTexEq) <|> (pstring "_" >>. (literal <|> pVar))) .>> spaces |>> fun x -> ("na",x)
 let pLowerArgName = pstring "_{" >>. spaces >>. pName .>> spaces .>> drops "=" .>>. pTexEq .>> pstring "}" .>> spaces
 let pLowerArg = attempt (pLowerArgName) <|> pLowerArgNa
-let pUpperArg = ((pstring "^" >>? betweenStr "{" "}" pTexEq) <|> (pstring "_" >>. (literal <|> pVar))) .>> spaces
+let pUpperArg = ((pstring "^" >>? betweenStr "{" "}" pTexEq) <|> (pstring "^" >>. (literal <|> pVar))) .>> spaces
 let pFun f = 
         pstring f >>? (pipe3 (pLowerArg) (pUpperArg) (pTexEq) (fun (name,from) upto expr -> match f with
                                                                                             | @"\sum" -> Sum (name,from,upto,expr)
