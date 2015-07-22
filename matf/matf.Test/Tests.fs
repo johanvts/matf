@@ -65,6 +65,41 @@ type ``Given Let``() =
         let actual = eval Map.empty (parse pTexEq testString)
         actual |> should (equalWithin 0.0000001) expected
 
+type ``Given Sum``() =
 
+    [<TestCase(0,4,5)>]
+    member t.``A simple sum`` (from,upto,expected) =
+        let testString = sprintf "\sum_%f^{%f} 1" from upto
+        let acutal = eval Map.empty (parse pTexEq testString)
+        acutal |> should (equalWithin 0.0000001) expected
+
+    [<TestCase(0,4,10)>]
+    member t.``A simple sum with a name`` (from,upto,expected) =
+        let testString = sprintf "\sum_{i=%f}^{%f} i" from upto
+        let acutal = eval Map.empty (parse pTexEq testString)
+        acutal |> should (equalWithin 0.0000001) expected
+
+    [<TestCase(0,4,30)>]
+    [<TestCase(43,65,68080)>]
+    member t.``A sum of squares`` (from,upto,expected) =
+        let testString = sprintf "\sum_{i=%f}^{%f} i^2" from upto
+        let acutal = eval Map.empty (parse pTexEq testString)
+        acutal |> should (equalWithin 0.0000001) expected
        
-   
+type ``Given Prod``() =
+
+    [<TestCase(0,4,0)>]
+    [<TestCase(1,4,24)>]
+    member t.``A simple prod`` (from,upto,expected) =
+        let testString = sprintf "\prod_{i=%f}^{%f} i" from upto
+        let acutal = eval Map.empty (parse pTexEq testString)
+        acutal |> should (equalWithin 0.0000001) expected
+
+type ``Given combinated expressions``() =
+    
+    [<TestCase(0,2,21)>]
+    [<TestCase(2,0,4)>]
+    member t.``A Var,Sum and square combination`` (a,b,expected) =
+        let testString = sprintf "pft = %f, 2^pft + \sum_1^10 %f" a b
+        let actual = eval Map.empty (parse pTexEq testString)
+        actual |> should (equalWithin 0.0000001) expected
