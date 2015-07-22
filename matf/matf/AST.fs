@@ -22,8 +22,8 @@ type expr =
     | Where of expr * name * expr
     | Arithmetic of expr * arithmetic * expr
     | Func of (value -> value)
-    | Sum of expr * expr * expr
-    | Prod of expr * expr * expr
+    | Sum of name * expr * expr * expr
+    | Prod of name * expr * expr * expr
     | Frac of expr * expr
     | Pow of expr * expr
     | Sqrt of expr

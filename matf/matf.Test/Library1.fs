@@ -40,10 +40,10 @@ let positive x = if x > 0.0000001 then true else false
     
 [<Property( Arbitrary=[| typeof<LimRange>  |])>]
 let``Addition Properties - Adding a positive floats grows the sum``(x, y) =
-        positive y ==>
+        (positive y) ==>
             let str1 = sprintf  "%f + %f" x y
             let result = eval Map.empty (parse pTexEq str1)
-            result > x
+            result |> should be (greaterThan x)
 
 type ``Given addition``()=
     
@@ -59,9 +59,12 @@ type ``Given addition``()=
 type ``Given Let``() =
     
     [<TestCase(10,4,14)>]
+    [<TestCase(0.2,4.14,4.34)>]
     member t.``Defining a variable and using it in addition`` (x,y,expected) =
         let testString = sprintf "x = %f, x + %f" x y
         let actual = eval Map.empty (parse pTexEq testString)
         actual |> should (equalWithin 0.0000001) expected
+
+
        
    

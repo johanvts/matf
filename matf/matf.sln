@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.22823.1
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "matf", "matf\matf.fsproj", "{40971656-F13D-4826-9175-58A9BBDAE0DA}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "matf.Test", "matf.Test\matf.Test.fsproj", "{CF63BE6B-C112-45F2-8766-EAA430C19098}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{99FE7147-9E42-4CA9-B8A6-71D759B59A22}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

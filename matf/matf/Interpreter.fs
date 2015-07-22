@@ -24,14 +24,10 @@ let rec eval state (expr : expr) =
     | Where (e1, name, e2) -> eval state (Let (name, e2, e1))
     | Arithmetic(left, operator, right) ->
         arithmetic (eval state left) operator (eval state right)
-    | Sum (from, upto, Func func) ->
-        [ (eval state from)..(eval state upto) ] |> List.sumBy func
-    | Sum (from, upto, a) ->
-        [ (eval state from)..(eval state upto) ] |> List.sumBy (fun _ -> eval state a)
-    | Prod (from, upto, Func func) ->
-        [ (eval state from)..(eval state upto) ] |> List.fold (fun s i -> s * (func i)) 1.0
-    | Prod (from, upto, a) ->
-        [ (eval state from)..(eval state upto) ] |> List.fold (fun s _ -> s * (eval state a)) 1.0
+    | Sum (name, from, upto, exp) ->
+        [ (eval state from)..(eval state upto) ] |> List.sumBy (fun value -> eval (state |> Map.add name value) exp)
+    | Prod (name, from, upto, exp) ->
+        [ (eval state from)..(eval state upto) ] |> List.fold (fun s value -> s * (eval (state |> Map.add name value) exp)) 1.0
     | Frac (top, btn) ->
         (eval state top) / (eval state btn)
     | Pow (e1, e2) -> (eval state e1) ** (eval state e2)
