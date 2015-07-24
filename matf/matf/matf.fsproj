@@ -52,6 +52,7 @@
     <Compile Include="AST.fs" />
     <Compile Include="Interpreter.fs" />
     <Compile Include="Parser.fs" />
+    <Compile Include="TexRunner.fs" />
     <None Include="Playground.fsx" />
     <Content Include="packages.config" />
     <Content Include="app.config" />

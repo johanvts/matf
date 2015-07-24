@@ -19,7 +19,7 @@ let rec eval state (expr : expr) =
     | Var name ->
         match state |> Map.tryFind name with
         | Some x -> x
-        | None -> failwith "Unbound variable."
+        | None -> failwith (sprintf "Unbound variable %s." name)
     | Let (name, e1, e2) -> eval (state |> Map.add name (eval state e1)) e2
     | Arithmetic(left, operator, right) ->
         arithmetic (eval state left) operator (eval state right)

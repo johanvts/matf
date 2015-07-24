@@ -8,6 +8,7 @@ open FsCheck.NUnit
 open Matf.AST
 open Matf.Interpreter
 open Matf.Parser
+open Matf.TexRunner
 
 //Floats limited to between -1000000 and 1000000 and precsions set to 0.0000001
 
@@ -39,11 +40,10 @@ let``Addition Properties - Associative floats``(x,y,z) =
 let positive x = if x > 0.0000001 then true else false
     
 [<Property( Arbitrary=[| typeof<LimRange>  |])>]
-let``Addition Properties - Adding a positive floats grows the sum``(x, y) =
-        (positive y) ==>
-            let str1 = sprintf  "%f + %f" x y
-            let result = eval Map.empty (parse pTexEq str1)
-            result |> should be (greaterThan x)
+let``Addition Properties - Adding a positive floats grows the sum``(x: float, y:float) =
+        let str1 = sprintf  "%f + %f" x y
+        let result = eval Map.empty (parse pTexEq str1)
+        positive y ==> (result > x) 
 
 type ``Given addition``()=
     
@@ -66,11 +66,10 @@ type ``Given Let``() =
         actual |> should (equalWithin 0.0000001) expected
     [<TestCase(10,4,14)>]
     [<TestCase(0.2,4.14,4.34)>]
-    member t.``Variable by Where and use in addition`` (x,y,expected) =
-        let testString =  sprintf "x + %f, x = %f" y x
+    member t.``Variable by Let - multiple use in addition`` (x,y,expected) =
+        let testString = sprintf "x = %f, y = %f, x + y" x y
         let actual = eval Map.empty (parse pTexEq testString)
         actual |> should (equalWithin 0.0000001) expected
-        
 
 type ``Given Sum``() =
 
@@ -135,6 +134,13 @@ type ``Given combinated expressions``() =
     [<TestCase(2,0,4)>]
     member t.``Combination - Var,Sum and square`` (a,b,expected) =
         let testString = sprintf "pft = %f, 2^pft + \sum_1^10 %f" a b
-        let actual = eval Map.empty (parse pTexEq testString)
+        let actual  = eval Map.empty (parse pTexEq testString)
         actual |> should (equalWithin 0.0000001) expected
 
+type ``Given string interpretation``() =
+    
+    [<Test>]
+    member t.``String with unbound variable`` () =
+        let testString = sprintf "2^pft + \sum_1^10 5"
+        let actual  = evalTex testString
+        actual |> should equal "Unbound variable pft."

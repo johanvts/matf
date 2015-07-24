@@ -33,8 +33,7 @@ let pTexEq, pTexEqImpl = createParserForwardedToRef ()
 let pName = FParsec.CharParsers.many1Chars letter 
 let pUnbound = pName .>> spaces |>> fun name -> Var name
 let pLet = pipe3 (pName.>> spaces .>> drops "=") (pTexEq .>> drops ",") (pTexEq)  (fun name value expr -> Let (name,value,expr))
-let pWhere = pipe3 (pTexEq .>> drops ",") (pName.>> spaces .>> drops "=") (pTexEq)  (fun expr name value -> Let (name,value,expr))
-let pVar = (attempt pLet) <|> (attempt pWhere) <|> pUnbound
+let pVar = (attempt pLet) <|> pUnbound
 
 //Sum and Prod functions
 
@@ -77,3 +76,4 @@ opp.AddOperator(PrefixOperator("-", spaces,4,true, fun x -> Neg x))
 //finally collect everything into an LatexEquation parser
 pTexEqImpl := pArithmetic
 
+let pTex = pTexEq .>> spaces .>> eof
