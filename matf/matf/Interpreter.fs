@@ -33,3 +33,6 @@ let rec eval state (expr : expr) =
     | Pow (e1, e2) -> (eval state e1) ** (eval state e2)
     | Sqrt e -> sqrt (eval state e)
     | Neg x -> -(eval state x)
+    | Sin x -> System.Math.Sin(eval state x)
+    | Cos x -> System.Math.Cos(eval state x)
+    | Tan x -> System.Math.Tan(eval state x)

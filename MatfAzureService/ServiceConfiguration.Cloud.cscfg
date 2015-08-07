@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="MatfAzureService" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="4" osVersion="*" schemaVersion="2015-04.2.6">
+  <Role name="WorkerRole1">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=matfazureservice;AccountKey=mUlktkok8Elt7u2adbtDRL0emsx1E/dI+wxAsGaBbktnwL+O3oZ0Q+5tPrQguxbGD36XyEO841DLf4Xi6U/b2A==" />
+    </ConfigurationSettings>
+  </Role>
+</ServiceConfiguration>

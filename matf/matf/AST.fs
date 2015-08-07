@@ -27,3 +27,6 @@ type expr =
     | Pow of expr * expr
     | Sqrt of expr
     | Neg of expr
+    | Sin of expr
+    | Cos of expr
+    | Tan of expr

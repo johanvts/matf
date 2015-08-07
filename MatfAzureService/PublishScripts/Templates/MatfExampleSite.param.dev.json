@@ -1,0 +1,29 @@
+{
+  "siteName": {
+    "value": "matf"
+  },
+  "hostingPlanName": {
+    "value": "MatfTestSite"
+  },
+  "siteLocation": {
+    "value": "North Europe"
+  },
+  "sku": {
+    "value": "Free"
+  },
+  "workerSize": {
+    "value": "0"
+  },
+  "siteMode": {
+    "value": "Limited"
+  },
+  "computeMode": {
+    "value": "0"
+  },
+  "subscriptionId": {
+    "value": "094ccd7d-3c05-4737-9af9-a7a4cec19738"
+  },
+  "resourceGroup": {
+    "value": "MatfTestSiteResoruceGroup"
+  }
+}

@@ -51,7 +51,7 @@ let pSum = pFun @"\sum"
 let pProd = pFun @"\prod"
 
 
-//Simpler functions
+//Simple functions
 
 let pFrac = drops @"\frac{" >>.pTexEq .>> drops "}{" .>>.pTexEq .>>drops "}" 
             |>> fun (top,btn) -> Frac (top,btn)
@@ -59,7 +59,15 @@ let pLn = drops @"\ln{" >>.pTexEq .>>drops "}" |>> fun x -> Ln x
 let pSqrt = drops @"\sqrt{" >>. pTexEq .>>drops "}" |>> fun x -> Sqrt x
 
 
-let pFunctions = pFrac <|> pLn  <|> pSqrt <|> pSum <|> pProd
+//Trigonometric functions
+
+let pSin = drops @"\sin{" >>. pTexEq .>> drops "}" |>> fun x -> Sin x;
+let pCos = drops @"\cos{" >>. pTexEq .>> drops "}" |>> fun x -> Cos x;
+let pTan = drops @"\tan{" >>. pTexEq .>> drops "}" |>> fun x -> Tan x;
+
+let pTrig = pSin <|> pCos <|> pTan
+
+let pFunctions = pFrac <|> pLn  <|> pSqrt <|> pSum <|> pProd <|> pTrig
 
 //Set up operators with precedence
 let opp = new OperatorPrecedenceParser<expr,unit,unit>()
@@ -68,6 +76,7 @@ opp.TermParser <- literal <|> pVar <|> pFunctions <|> between (drops "(") (drops
 opp.AddOperator(InfixOperator("+", spaces,1,Associativity.Left, fun x y -> Arithmetic (x,Add,y)))
 opp.AddOperator(InfixOperator("-", spaces,1,Associativity.Left, fun x y -> Arithmetic (x,Subtract,y)))
 opp.AddOperator(InfixOperator("*", spaces,2,Associativity.Left, fun x y -> Arithmetic (x,Multiply,y)))
+opp.AddOperator(InfixOperator("\cdot", spaces,2,Associativity.Left, fun x y -> Arithmetic (x,Multiply,y)))
 opp.AddOperator(InfixOperator("/", spaces,2,Associativity.Left, fun x y -> Arithmetic (x,Divide,y)))
 opp.AddOperator(InfixOperator("^", spaces,3,Associativity.Right, fun x y -> Pow (x,y)))
 opp.AddOperator(PrefixOperator("-", spaces,4,true, fun x -> Neg x))
